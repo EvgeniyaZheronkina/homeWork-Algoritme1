@@ -2,9 +2,6 @@ package pro.sky.Algoritme1;
 
 import pro.sky.Algoritme1.exception.InvalidIndexException;
 import pro.sky.Algoritme1.exception.NullItemException;
-import pro.sky.Algoritme1.exception.StorageIsFullException;
-
-import java.util.Arrays;
 
 public class IntegerListImpl implements IntegerList {
 
@@ -105,9 +102,16 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public boolean contains(Integer item) {
         Integer[] storageCopy = toArray();
-        sort(storageCopy);
+
+     //   sort(storageCopy);
+    //    sortSelection(storageCopy);
+        long start = System.currentTimeMillis();
+        sortBubble(storageCopy);
+        System.out.println(System.currentTimeMillis() - start);
         return binarySearch(storageCopy, item);
     }
+
+
 
     @Override
     public int indexOf(Integer item) {
@@ -183,6 +187,7 @@ public class IntegerListImpl implements IntegerList {
         return temp;
     }
 
+
     private void extendedArrayIfNeeded() {
         if (size == storage.length - 1) {
             int length = (int) (storage.length * 1.5);
@@ -198,6 +203,34 @@ public class IntegerListImpl implements IntegerList {
             Integer[] tempStorage = new Integer[length];
             System.arraycopy(storage, 0, tempStorage, 0, storage.length);
             storage = tempStorage;
+        }
+    }
+
+    private static void sortBubble(Integer[] storage) {
+        for (int i = 0; i < storage.length - 1; i++) {
+            for (int j = 0; j < storage.length - 1 - i; j++) {
+                if (storage[j] > storage[j + 1]) {
+                    swapElements(storage, j, j + 1);
+                }
+            }
+        }
+    }
+
+    private static void swapElements(Integer[] storage, int indexA, int indexB) {
+        int tmp = storage[indexA];
+        storage[indexA] = storage[indexB];
+        storage[indexB] = tmp;
+    }
+
+    public static void sortSelection(Integer[] storage) {
+        for (int i = 0; i < storage.length - 1; i++) {
+            int minElementIndex = i;
+            for (int j = i + 1; j < storage.length; j++) {
+                if (storage[j] < storage[minElementIndex]) {
+                    minElementIndex = j;
+                }
+            }
+            swapElements(storage, i, minElementIndex);
         }
     }
 

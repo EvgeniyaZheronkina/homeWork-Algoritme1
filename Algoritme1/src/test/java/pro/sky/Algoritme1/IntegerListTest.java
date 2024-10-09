@@ -62,6 +62,7 @@ public class IntegerListTest {
         assertFalse(out.contains(456));
     }
 
+
     @Test
     void testIndexOf() {
         out.add(111);
