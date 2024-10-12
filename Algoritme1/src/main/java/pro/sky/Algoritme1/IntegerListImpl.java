@@ -3,6 +3,8 @@ package pro.sky.Algoritme1;
 import pro.sky.Algoritme1.exception.InvalidIndexException;
 import pro.sky.Algoritme1.exception.NullItemException;
 
+import java.util.Arrays;
+
 public class IntegerListImpl implements IntegerList {
 
     private Integer[] storage;
@@ -103,7 +105,6 @@ public class IntegerListImpl implements IntegerList {
     public boolean contains(Integer item) {
         Integer[] storageCopy = toArray();
 
-     //   sort(storageCopy);
     //    sortSelection(storageCopy);
         long start = System.currentTimeMillis();
         sortBubble(storageCopy);
@@ -187,8 +188,12 @@ public class IntegerListImpl implements IntegerList {
         return temp;
     }
 
+    private void sort(Integer[] storage) {
+        quickSort(storage, 0, storage.length - 1);
+    }
 
-    private void extendedArrayIfNeeded() {
+
+    private void extendedArrayIfNeeded() {   // метод grow
         if (size == storage.length - 1) {
             int length = (int) (storage.length * 1.5);
             Integer[] tempStorage = new Integer[length];
@@ -205,6 +210,16 @@ public class IntegerListImpl implements IntegerList {
             storage = tempStorage;
         }
     }
+
+    private void quickSort(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
+        }
+    }
+
 
     private static void sortBubble(Integer[] storage) {
         for (int i = 0; i < storage.length - 1; i++) {
@@ -234,18 +249,6 @@ public class IntegerListImpl implements IntegerList {
         }
     }
 
-
-    private static void sort(Integer[] storage) {
-        for (int i = 1; i < storage.length; i++) {
-            int temp = storage[i];
-            int j = i;
-            while (j > 0 && storage[j - 1] >= temp) {
-                storage[j] = storage[j - 1];
-                j--;
-            }
-            storage[j] = temp;
-        }
-    }
 
     private static int partition(Integer[] storage, int low, int high) {
         int pivot = storage[high];
