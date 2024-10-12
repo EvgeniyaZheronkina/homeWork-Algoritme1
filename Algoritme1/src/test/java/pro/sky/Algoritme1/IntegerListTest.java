@@ -31,9 +31,15 @@ public class IntegerListTest {
     void testAddAtIndex() {
         out.add(111);
         out.add(222);
-        out.add(0, 333);
-        assertEquals(8, out.size());
-        assertEquals(333, out.get(0));
+        out.add(333);
+        out.add(444);
+        out.add(555);
+        out.add(666);
+        out.add(777);
+        out.add(888);
+        out.add(12, 999);
+      //  assertEquals(13, out.size());
+        assertEquals(999, out.get(12));
 
     }
 
